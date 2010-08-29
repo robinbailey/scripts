@@ -75,7 +75,6 @@ sub mainscan
 
 sub nmapscan
 {
-	
 	%hash = map { $_ => 1 } @found;
 	@found = sort keys %hash;
 
@@ -85,7 +84,7 @@ sub nmapscan
 	print output ("\n");
 	close (output);
 
-	print "\n\nStarting nmap scan\n\n";
+	print "\nStarting nmap scan\n\nOptions are : $nmapopt\n\n";
 
 	$nmapresults = `nmap $nmapopt -iL $tempfile -PN`;
 	print $nmapresults;
