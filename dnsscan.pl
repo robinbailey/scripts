@@ -41,8 +41,9 @@ sub wildcard
 		foreach $rr ($query->answer)
 		{
 			next unless $rr->type eq "A";
-			print $rr->address,  " - $sub.$domain\n";
+			print $rr->address,  " - *.$domain\n";
 			$wildcard = $rr->address;
+			push (@found, $rr->address);
 		}
 	}
 }
