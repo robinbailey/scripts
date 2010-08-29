@@ -3,9 +3,19 @@ use Net::DNS;
 
 $res = Net::DNS::Resolver->new;
 $domain = $ARGV[0];
-$ignore = $ARGV[1];
 $tempfile = "/tmp/dnsscan.txt";
 unlink $tempfile;
+
+$query = $res->search('ksjdahflkafhdkjsd.'..$domain);
+if ($query)
+{
+	foreach $rr ($query->answer)
+	{
+		next unless $rr->type eq "A";
+		print $rr->address,  " - $sub.$domain\n";
+		$wildcard = $rr->address;
+	}
+}
 
 #open(FILE, "subdomains.txt") or die("Can not open file.\n");
 #@subdomains = <FILE>;
@@ -23,7 +33,7 @@ foreach $sub (@subdomains)
 		{
 			next unless $rr->type eq "A";
 			$add = $rr->address;
-			if ($add != $ignore)
+			if ($add != $wildcard)
 			{
 				print $rr->address,  " - $sub.$domain\n";
 				push (@found, $rr->address);
