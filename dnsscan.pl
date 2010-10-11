@@ -4,8 +4,6 @@ use Getopt::Std;
 
 $res = Net::DNS::Resolver->new;
 $domain = $ARGV[-1];
-$tempfile = "/tmp/dnsscan.txt";
-unlink $tempfile;
 
 sub usage
 {
@@ -76,20 +74,13 @@ sub mainscan
 
 sub nmapscan
 {
+	# Sort the found IPs and remove duplicates
 	%hash = map { $_ => 1 } @found;
 	@found = sort keys %hash;
 
-	unlink $tempfile;
-	open (output, ">$tempfile") || print "Could not open $tempfile $!";
-	print output join("\n", @found);
-	print output ("\n");
-	close (output);
-
 	print "\nStarting nmap scan\n\nOptions are : $nmapopt\n\n";
-
-	$nmapresults = `nmap $nmapopt -iL $tempfile -PN`;
+	$nmapresults = `nmap $nmapopt -PN "@found"`;
 	print $nmapresults;
-	unlink $tempfile;
 }
 
 &usage;
