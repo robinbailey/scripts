@@ -56,7 +56,7 @@ sub folderscan
 	$content = getstore("http://".$host."/sadlfhw94evnetyvoesnmvtoescmn47vob", "/dev/null");
 	if ($content != 404)
 	{
-		print "Site didn't return 404\nFalling back to length based page matching\nIf you get too many false positives, raise \$maxlength to above the diff printed for the false positives";
+		print "Site didn't return 404\nFalling back to length based page matching\nIf you get too many false positives, raise \$maxdiff to above the diff printed for the false positives\n\n";
 		$content = get("http://".$host."/sadlfhw94evnetyvoesnmvtoescmn47vob");
 		$len = length($content);
 	}
@@ -77,8 +77,8 @@ sub folderscan
 			{
 				$content = $host.$recursive."/".$folder;
 				$folder = "/$folder";
-				print "$content";
-			 	print "\t\t\t\t\t$diff\n";
+				print "http://$content";
+			 	print "\t\t\t\t\t\t\t$diff\n";
 				push(@working, $recursive.$folder);
 				$num++;
 				open(FILE, ">>folders-found.txt"); 
